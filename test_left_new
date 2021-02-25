@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   test_left.py    
+@Contact :   xiaorun@nebula-link.com
+@License :   (C)Copyright 2017-2018, Liugroup-NLPR-CASIA
+
+@Modify Time      @Author    @Version    @Desciption
+------------      -------    --------    -----------
+2021/2/25 0025 21:13   gxrao      1.0         None
+'''
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2021/2/25 17:21
+# @Author  : xiaorun
+# @Site    :
+# @File    : mian.py
+# @Software: PyCharm
+import cv2
+import numpy as np
+from stereo import uv2XYZ
+from findFootball import findball
+from shapely.geometry import Polygon
+#设置足球得阈值
+lower_yello=np.array([4,94,93])
+upper_yello=np.array([21,240,200])
+
+capLeft=cv2.VideoCapture("left.avi")
+capRight=cv2.VideoCapture("right.avi")
+roi_left=Polygon([(505,75),(891,68),(1262,659),(1220,1002),(88,970)])
+roi_right=Polygon([(490,94),(861,77),(1049,1012),(29,989),(134,344)])
+#roi.contains()
+####判断左右摄像头是否打开################
+retLeft,frameLeft=capLeft.read()
+retRight,frameRght=capRight.read()
+if (not retLeft) or (not retRight):
+    print("camera erro,can't open...")
+findFootball_left=findball(lower_yello,upper_yello,roi_left)
+findFootball_right=findball(lower_yello,upper_yello,roi_right)
+while True:
+    retLeft,frameLeft=capLeft.read()
+    retRight,frameRight=capRight.read()
+    frame_left=findFootball_right.imageProcess(frameLeft)
+    cv2.imshow("leftProcess", frameLeft)
+    frame_right=findFootball_left.imageProcess(frameRight)
+    cv2.imshow("rightProcess", frame_right)
+
+    if cv2.waitKey(500)==ord("q"):
+        break
+
+capLeft.release()
+capRight.read()
