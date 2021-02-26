@@ -6,7 +6,7 @@ import time
 
 # define the lower and upper boundaries of the "yellow"
 # ball in the HSV color space, then initialize the list of tracked points
-yellowLower = (7,10,90)
+yellowLower = (7,90,120)
 yellowUpper = (15,255,250)
 pts = deque(maxlen=20)
 

@@ -158,7 +158,5 @@ point3=(-800,3350,0,1)
 
 uv_left=xyz2uv(point3,camera_matrix_L,tvec_L,rotM_L)
 uv_right=xyz2uv(point3,camera_matrix_R,tvec_R,rotM_R)
-print(uv_left/uv_left[2])
-print(uv_right/uv_right[2])
+
 world_3d=uv2XYZ(left_point,right_point)
-print(world_3d)
